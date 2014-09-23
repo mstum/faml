@@ -338,8 +338,8 @@ Check the test.html page for an interactive sample.
 
     <script src="parser.js"></script>
     <script>
-        var parser = new faml.Parser();
-        var renderer = new faml.Renderer();
+        var parser = new faml.FamlParser();
+        var renderer = new faml.FamlRenderer();
 
         var input = "This is *a test*!";
         
