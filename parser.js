@@ -58,6 +58,8 @@
 
     var reAllEscapedChar = new RegExp('\\\\(' + ESCAPABLE + ')', 'g');
 
+     var reUrl = new RegExp('(]\\()*(https?|ftp):\\/\\/[^\\s]+','g');
+
 
     var reAllTab = /\t/g;
 
@@ -1045,8 +1047,14 @@
     };
 
      // Auto-Link all URLs (Basically, replace http://www.example.com with [http://www.example.com](http://www.example.com)
-     var ensureUrlsAreLinked = function(input){
-        return input;
+     var ensureUrlsAreLinked = function(input) {
+         return input.replace(reUrl, function (match) {
+             if (match[0] == ']' && match[1] == '(') {
+                 return match;
+             }
+
+             return "[" + match + "](" + match + ")";
+         });
      };
 
     // ctor
