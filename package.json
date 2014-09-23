@@ -5,7 +5,7 @@
   "author": "Michael Stum <opensource@stum.de>",
   "main": "lib/faml",
   "license": "BSD-3-Clause",
-  "homepage": "https://github.com/mstum/faml",
+  "homepage": "http://mstum.github.io/faml/",
   "repository": {
     "type": "git",
     "url": "https://github.com/mstum/faml"
