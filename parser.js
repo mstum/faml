@@ -1044,23 +1044,34 @@
         return this.doc;
     };
 
-    // ctor
-     var famlParserInternal = {
-         doc: makeBlock('Document', 1, 1),
-         tip: this.doc,
-         inlineParser: new InlineParser(),
-         breakOutOfLists: breakOutOfLists,
-         addLine: addLine,
-         addChild: addChild,
-         incorporateLine: incorporateLine,
-         finalize: finalize,
-         processInlines: processInlines
+     // Auto-Link all URLs (Basically, replace http://www.example.com with [http://www.example.com](http://www.example.com)
+     var ensureUrlsAreLinked = function(input){
+        return input;
      };
 
+    // ctor
+    function famlParserWrapped() {
+        return {
+            doc: makeBlock('Document', 1, 1),
+            tip: this.doc,
+            inlineParser: new InlineParser(),
+            breakOutOfLists: breakOutOfLists,
+            addLine: addLine,
+            addChild: addChild,
+            incorporateLine: incorporateLine,
+            finalize: finalize,
+            processInlines: processInlines,
+            parse: parse
+        };
+    }
+
     function FamlParser() {
+        var famlParserInternal = new famlParserWrapped();
+
         return {
             parse: function(input) {
-                return parse.call(famlParserInternal, input);
+                input = ensureUrlsAreLinked(input);
+                return famlParserInternal.parse(input);
             }
         };
     }
