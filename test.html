@@ -66,8 +66,9 @@ Visit my Blog at http://www.stum.de or the [faml GitHub repository](https://gith
         <script src="parser.js"></script>
         <script src="renderer.js"></script>
         <script>
-            var parser = new faml.Parser();
-            var renderer = new faml.Renderer();
+            var parser = new faml.FamlParser();
+            var renderer = new faml.FamlRenderer();
+            renderer.fencedClass = "MyFencedCodeClass-";
 
             var escapeHtml = function(input) {
                 var result = input.replace(/[&](?![#](x[a-f0-9]{1,8}|[0-9]{1,8});|[a-z][a-z0-9]{1,31};)/gi,'&amp;')
@@ -78,14 +79,10 @@ Visit my Blog at http://www.stum.de or the [faml GitHub repository](https://gith
                 return result;
             };
 
-            var update = function(input){
+            var update = function(input) {
                 var parsed = parser.parse(input);
-                console.log(parsed);
-
                 var rendered = renderer.render(parsed);
-
                 var escaped = escapeHtml(rendered).replace("\n", "<br/>");
-
                 document.getElementById("output-html").innerHTML = escaped;
                 document.getElementById("rendered-html").innerHTML = rendered;
             };

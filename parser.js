@@ -1044,23 +1044,27 @@
         return this.doc;
     };
 
-
     // ctor
+     var famlParserInternal = {
+         doc: makeBlock('Document', 1, 1),
+         tip: this.doc,
+         inlineParser: new InlineParser(),
+         breakOutOfLists: breakOutOfLists,
+         addLine: addLine,
+         addChild: addChild,
+         incorporateLine: incorporateLine,
+         finalize: finalize,
+         processInlines: processInlines
+     };
+
     function FamlParser() {
         return {
-            doc: makeBlock('Document', 1, 1),
-            tip: this.doc,
-            inlineParser: new InlineParser(),
-            breakOutOfLists: breakOutOfLists,
-            addLine: addLine,
-            addChild: addChild,
-            incorporateLine: incorporateLine,
-            finalize: finalize,
-            processInlines: processInlines,
-            parse: parse
+            parse: function(input) {
+                return parse.call(famlParserInternal, input);
+            }
         };
     }
 
-    exports.Parser = FamlParser;
+    exports.FamlParser = FamlParser;
 
 })(typeof exports === 'undefined' ? this.faml || (this.faml = {}) : exports);

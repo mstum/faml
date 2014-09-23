@@ -94,13 +94,13 @@
     };
 
     // Render a single block element.
-    var renderBlock = function(block, in_tight_list) {
+    var renderBlock = function(block, in_tight_list, code_prefix_class) {
         var tag;
         var attr;
         var info_words;
         switch (block.t) {
             case 'Document':
-                var whole_doc = this.renderBlocks(block.children);
+                var whole_doc = this.renderBlocks(block.children, in_tight_list, code_prefix_class);
                 return (whole_doc === '' ? '' : whole_doc + '\n');
             case 'Paragraph':
                 if (in_tight_list) {
@@ -112,16 +112,16 @@
                 }
                 break;
             case 'BlockQuote':
-                var filling = this.renderBlocks(block.children);
+                var filling = this.renderBlocks(block.children, in_tight_list, code_prefix_class);
                 return inTags('blockquote', [], filling === '' ? '\n' :
-                    '\n' + this.renderBlocks(block.children) + '\n');
+                    '\n' + this.renderBlocks(block.children, in_tight_list, code_prefix_class) + '\n');
             case 'ListItem':
-                return inTags('li', [], this.renderBlocks(block.children, true).trim());
+                return inTags('li', [], this.renderBlocks(block.children, true, code_prefix_class).trim());
             case 'List':
                 tag = block.list_data.type == 'Bullet' ? 'ul' : 'ol';
                 attr = (!block.list_data.start || block.list_data.start == 1) ?
                     [] : [['start', block.list_data.start.toString()]];
-                return inTags(tag, attr, '\n' + this.renderBlocks(block.children) + '\n');
+                return inTags(tag, attr, '\n' + this.renderBlocks(block.children, in_tight_list, code_prefix_class) + '\n');
             case 'Header':
                 tag = 'h' + block.level;
                 return inTags(tag, [], this.renderInlines(block.inline_content));
@@ -130,7 +130,7 @@
                 attr = info_words.length === 0
                     || info_words[0].length === 0
                         ? []
-                        : [['class',this.fencedClass + escapeHtml(info_words[0],true)]];
+                        : [['class',code_prefix_class + escapeHtml(info_words[0],true)]];
                 return inTags('pre', [],
                     inTags('code', attr, escapeHtml(block.string_content)));
             default:
@@ -140,10 +140,10 @@
     };
 
     // Render a list of block elements
-    var renderBlocks = function(blocks, in_tight_list) {
+    var renderBlocks = function(blocks, in_tight_list, code_prefix_class) {
         var result = [];
         for (var i=0; i < blocks.length; i++) {
-            result.push(this.renderBlock(blocks[i], in_tight_list));
+            result.push(this.renderBlock(blocks[i], in_tight_list, code_prefix_class));
         }
         return result.join('\n');
     };
@@ -162,19 +162,27 @@
         }
     };
 
+    var internalRenderer =
+    {
+        renderInline: renderInline,
+        renderInlines: renderInlines,
+        renderBlock: renderBlock,
+        renderBlocks: renderBlocks
+    };
+
     // ctor
     function FamlRenderer(){
         return {
-            // default options:
+            // Properties
             fencedClass: 'language-',
-            renderInline: renderInline,
-            renderInlines: renderInlines,
-            renderBlock: renderBlock,
-            renderBlocks: renderBlocks,
-            render: renderBlock
+
+            // Methods
+            render: function(input) {
+                return internalRenderer.renderBlock(input, false, this.fencedClass);
+            }
         };
     }
 
-    exports.Renderer = FamlRenderer;
+    exports.FamlRenderer = FamlRenderer;
 
 })(typeof exports === 'undefined' ? this.faml || (this.faml = {}) : exports);
