@@ -429,7 +429,7 @@ Usually rendered as a `<p>` tag. Can contain inline elements, but not other bloc
     {
       inline_content: [
 		{ c: "Lorem Ipsum", t: "Str" },
-		{ t: "Softbreak" },
+		{ t: "Linebreak" },
 		{ c: "Dolor Sic Amet!", t: "Str" }
       ]
       parent: <ParentNode>,
@@ -458,7 +458,7 @@ Usually rendered as `<blockquote>`.
 	    {
 	      inline_content: [
 			{ c: "Lorem Ipsum", t: "Str" },
-			{ t: "Softbreak" },
+			{ t: "Linebreak" },
 			{ c: "Dolor Sic Amet!", t: "Str" }
 	      ]
 	      parent: <ParentNode>,
@@ -531,7 +531,7 @@ Usually rendered as a `<em>` tag. The `c` member is an array of other inline ele
     {
       c: [
 		{ c: "Lorem Ipsum", t: "Str" },
-		{ t: "Softbreak" },
+		{ t: "Linebreak" },
 		{ c: "Dolor Sic Amet!", t: "Str" }
       ],
       t: "Emph"
@@ -543,7 +543,7 @@ Usually rendered as a `<string>` tag. The `c` member is an array of other inline
     {
       c: [
 		{ c: "Lorem Ipsum", t: "Str" },
-		{ t: "Softbreak" },
+		{ t: "Linebreak" },
 		{ c: "Dolor Sic Amet!", t: "Str" }
       ],
       t: "Strong"
