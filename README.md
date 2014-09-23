@@ -538,7 +538,7 @@ Usually rendered as a `<em>` tag. The `c` member is an array of other inline ele
     }
 
 #### Strong
-Usually rendered as a `<string>` tag. The `c` member is an array of other inline elements
+Usually rendered as a `<strong>` tag. The `c` member is an array of other inline elements
 
     {
       c: [
@@ -558,7 +558,7 @@ A HTML Entity, usually rendered as-is.
     }
 
 #### Link
-Usually rendered as `<a href="http://www.stum.de" title="My Blog">A Link</a>`. `title` maybe be `undefined` if no title was given. `label` is an array of inline elements because link labels may be formatted.
+Usually rendered as `<a href="http://www.stum.de" title="My Blog">A Link</a>`. `title` may be be `undefined` if no title was given. `label` is an array of inline elements because link labels may be formatted with `faml` markup.
 
     {
       destination: "http://www.Stum.de",
