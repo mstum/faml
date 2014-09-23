@@ -3,7 +3,7 @@
   "version": "0.9.0",
   "description": "faml - A Markup Language",
   "author": "Michael Stum <opensource@stum.de>",
-  "main": "build/faml.min.js",
+  "main": "lib/faml",
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
