@@ -522,7 +522,7 @@ A literal string that needs to be HTML Encoded.
 Usually rendered as a `<br/>` tag.
 
     {
-      t: "Softbreak"
+      t: "Linebreak"
     }
  
 #### Emph
