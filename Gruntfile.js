@@ -7,7 +7,7 @@ module.exports = function(grunt){
             },
             build: {
                 src: 'src/*.js',
-                dest: 'build/<%= pkg.name %>.<%= pkg.version %>.min.js'
+                dest: 'lib/<%= pkg.name %>.<%= pkg.version %>.min.js'
             }
         }
     });
