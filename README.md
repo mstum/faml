@@ -120,7 +120,7 @@ Up to six levels of headings can be created by starting a line with one to six \
     ### Heading 3
     #### Heading 4
     ##### Heading 5
-    ###### Heading 6 - any formatting (like **this**) is taken as a literal
+    ###### Heading 6 - Inline formatting (like *this*) or [links](http://example.com) are supported
     #Missing Space
      # Not the first character in the line
 
@@ -130,7 +130,7 @@ Up to six levels of headings can be created by starting a line with one to six \
     <h3>Heading 3</h3>
     <h4>Heading 4</h4>
     <h5>Heading 5</h5>
-    <h6>Heading 6 - any formatting (like **this**) is taken as a literal</h6>
+    <h6>Heading 6 - Inline formatting (like <em>this</em>) or <a href="http://example.com">links</a> are supported</h6>
     <p>#Missing Space<br/>
      # Not the first character in the line</p>
 
