@@ -58,10 +58,13 @@
 
     var reAllEscapedChar = new RegExp('\\\\(' + ESCAPABLE + ')', 'g');
 
-     var reUrl = new RegExp('(]\\()*(https?|ftp):\\/\\/[^\\s]+','g');
-
-
     var reAllTab = /\t/g;
+
+
+    // Check if there's a better way to deal with the lack of negative lookbehind
+    // I want to match URLs _not_ preceded by ](. That would allow me to get rid of the
+    // inner function in ensureUrlsAreLinked
+    var reUrl = new RegExp('(]\\(){0,1}(https?|ftp):\\/\\/[^\\s]+','g');
 
     // Matches a character with a special meaning in markdown,
     // or a string of non-special characters.
@@ -1048,7 +1051,7 @@
 
      // Auto-Link all URLs (Basically, replace http://www.example.com with [http://www.example.com](http://www.example.com)
      var ensureUrlsAreLinked = function(input) {
-         return input.replace(reUrl, function (match) {
+         return input.replace(reUrl, function(match) {
              if (match[0] == ']' && match[1] == '(') {
                  return match;
              }
@@ -1077,6 +1080,7 @@
         var famlParserInternal = new famlParserWrapped();
 
         return {
+            // Methods
             parse: function(input) {
                 input = ensureUrlsAreLinked(input);
                 return famlParserInternal.parse(input);
