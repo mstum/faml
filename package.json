@@ -1,0 +1,20 @@
+{
+  "name": "faml",
+  "version": "0.9.0",
+  "description": "faml - A Markup Language",
+  "author": "Michael Stum <opensource@stum.de>",
+  "main": "build/faml.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mstum/faml"
+  },
+  "bugs": {
+      "url": "https://github.com/mstum/faml/issues"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-uglify": "^0.6.0"
+  }
+}
