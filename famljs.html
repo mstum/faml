@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>faml - A Markup Language</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-desktop.css" />
+        <link rel="stylesheet" href="css/style-wide.css" />
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+</head>
+<body class="left-sidebar">
+<div id="wrapper">
+    <div id="content">
+        <div class="inner">
+            <article class="box post post-excerpt">
+                <header>
+                    <h2>How to use</h2>
+                </header>
+                <p>
+                    <h3>Web Browser (IE9+)</h3>
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>&lt;script src="faml.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var parser = new faml.FamlParser();
+    var renderer = new faml.FamlRenderer();
+
+    var input = "This is *a test*!";
+
+    // Convert faml-text to Abstract syntax tree (AST)
+    var parsed = parser.parse(input);
+
+    // Render AST to HTML => &lt;p&gt;This is &lt;em&gt;a test&lt;/em&gt;!&lt;/p&gt;
+    var html = renderer.render(parsed);
+
+    // Put the HTML onto the page
+    document.getElementById("rendered-html").innerHTML = html;
+&lt;/script&gt;</pre></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                <h3>node.js</h3>
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>npm install faml
+
+var faml = require("faml");
+var parser = new faml.FamlParser();
+var renderer = new faml.FamlRenderer();
+// Actual usage is the same as in the Web Browser
+</pre></td>
+                    </tr>
+                </table>
+                </p>
+                <p><h3>Properties and Methods</h3>
+                <code>FamlParser.parse(input)</code><br/>Parse the faml input string and returns an AST<br/><br/>
+                <code>FamlRenderer.render(ast)</code><br/>Render the given AST to a HTML string<br/><br/>
+                <code>FamlRenderer.fencedClass</code><br/>The CSS class that is prepended to code blocks with a CSS class.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>var renderer = new faml.FamlRenderer();
+renderer.fencedClass = "myClass-";
+
+Input faml:
+```ruby
+puts 'Hello world'
+```
+Output HTML:
+&lt;pre&gt;&lt;code class="myClass-ruby"&gt;puts 'Hello world'
+&lt;/code&gt;&lt;/pre&gt;</pre></td>
+                    </tr>
+                </table>
+                </p>
+            </article>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <h1 id="logo"><a href="index.html">faml</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="index.html">About</a></li>
+                <li><a href="try.html">Try it out!</a></li>
+                <li class="current"><a href="famljs.html">How to use</a></li>
+                <li><a href="spec.html">Specification</a></li>
+                <li><a href="ast.html">AST Specification</a></li>
+                <li><a href="https://github.com/mstum/faml"><img src="images/github.png" width="16" height="16"/>&nbsp;&nbsp;GitHub Page</a></li>
+            </ul>
+        </nav>
+        <ul id="copyright">
+            <li>&copy; 2014 <a href="http://www.stum.de">Michael Stum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

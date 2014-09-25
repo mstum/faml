@@ -1,94 +1,128 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>faml.js test page</title>
-        <style>
-            h1.header { font-size: 1.4em; font-weight: bold; border-bottom: 1px solid black; }
-            div.output { border: 1px dotted navy; }
-            textarea { width: 100%; height: 100%; border: 1px dotted navy; resize: none; }
-            table {  height: 100%; width: 100%; border-collapse: collapse; }
-            table td { vertical-align: top; width: 33.3%; height: 100%; padding: 10px; }
-        </style>
-    </head>
-    <body>
+	<head>
+		<title>faml - A Markup Language</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+			<link rel="stylesheet" href="css/style-wide.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="left-sidebar">
+			<div id="wrapper">
+					<div id="content">
+						<div class="inner">
+								<article class="box post post-excerpt">
+									<header>
+										<h2>faml - A Markup Language</h2>
+										<p>Download v0.9.0 for <a href="download/faml.0.9.0.min.js">Web Browsers (IE9+)</a> or <a href="https://www.npmjs.org/package/faml">node.js</a></p>
+									</header>
+									<p>
+                                        <em>faml</em> is a markup language to allow safe and easy formatting of text, which is especially useful for websites that allow users to add contents (e.g., blog comments or forum postings).
+                                    </p>
+                                    <p>
+                                        <table class="faml-table box text-style1">
+                                        <tr>
+                                            <th>Input faml text</th>
+                                            <th>Rendered Output HTML</th>
+                                        </tr>
+                                        <tr>
+                                            <td id="example-faml">
+                                                As *an example*, this paragraph contains **some** faml markup.<br/>
+                                                If you were to include it either<br/>
+                                                * in your browser (`&lt;script src="faml.js"&gt;&lt;/script&gt;`)<br/>
+                                                * or your node.js application (`npm install faml`)<br/><br/>
+                                                then it would render out like on the right.<br/>
+                                                <br/>
+                                                It also supports [hyperlinks](http://mstum.github.io/faml/) and automatically links stuff like http://mstum.github.io/faml/<br/>
+                                                <br/>
+                                                Neat, huh?
+                                            </td>
+                                            <td id="example-html"></td>
+                                        </tr>
+                                        </table>
+                                    </p>
+                                    <p>
+                                        <h3>Features</h3>
+                                        <ul>
+                                            <li>Emphasis (Italic) and Strong Emphasis (Bold)</li>
+                                            <li>Preformatted code, both as blocks (pre) or inline (code)</li>
+                                            <li>Ordered and Unordered lists, nested however you want</li>
+                                            <li>Block Quotes</li>
+                                            <li>Headings (h1 to h6)</li>
+                                            <li>Links, both automatic (for http, https and ftp) and through markup</li>
+                                            <li>It does not support inline HTML (so you don't have to worry about blocking it), but HTML Entities (e.g., &amp;copy;) are properly preserved.</li>
+                                        </ul>
+                                        <a href="try.html">Try it in your browser</a>
+                                    </p>
+                                    <p>
+                                        <h3>Usage</h3>
+                                    (In node.js, use <code>var faml = require("faml");</code>, usage is otherwise the same)
+                                    <table class="faml-table box text-style1">
 
-    <table>
-        <tr>
-            <td>
-                <h1 class="header">Enter some text</h1>
-                <textarea id="input-text" autcomplete="off"># Heading 1 - Emphasis
-This is *emphasized* and **strongly emphasized** text, followed by ***strongly emphasized emphasis*** and `inline code`. This is *emphasis containing a \* in it*.
+                                        <tr>
+                                            <td><pre>&lt;script src="faml.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    var parser = new faml.FamlParser();
+    var renderer = new faml.FamlRenderer();
 
-## Heading 2 - Lists
-* List Item One
-* List Item Two
-  * Nested List Item Two-One
-    * Nested List Item Two-One-One
-  * Nested List Item Two-Two
-* List Item Three
+    var input = "This is *a test*!";
 
-1. Ordered List Item One
-   * Nested Unordered List
-   * Nested Item 2
-2. Ordered List Item Two
+    // Convert faml-text to Abstract syntax tree (AST)
+    var parsed = parser.parse(input);
 
-### Heading 3 - Code Fences
-```ruby
-puts 'This is a fenced code block.'
-puts 'It is awesome if you want to copy/paste some code.'
-puts 'It preserves spacing:'
+    // Render AST to HTML => &lt;p&gt;This is &lt;em&gt;a test&lt;/em&gt;!&lt;/p&gt;
+    var html = renderer.render(parsed);
 
-#      **
-#     ****
-#    ******
-#      **
-#      **
-```
+    // Put the HTML onto the page
+    document.getElementById("rendered-html").innerHTML = html;
+&lt;/script&gt;</pre></td>
+                                        </tr>
+                                    </table>
+                                    </p>
+								</article>
+						</div>
+					</div>
 
-#### Heading 4 - Block Quotes
-> It Belongs In a Museum!
-> *-- Henry Jones Jr., Indiana Jones and the Last Crusade*
+					<div id="sidebar">
+							<h1 id="logo"><a href="index.html">faml</a></h1>
+							<nav id="nav">
+								<ul>
+									<li class="current"><a href="index.html">About</a></li>
+                                    <li><a href="try.html">Try it out!</a></li>
+                                    <li><a href="famljs.html">How to use</a></li>
+									<li><a href="spec.html">Specification</a></li>
+                                    <li><a href="ast.html">AST Specification</a></li>
+                                    <li><a href="https://github.com/mstum/faml"><img src="images/github.png" width="16" height="16"/>&nbsp;&nbsp;GitHub Page</a></li>
+								</ul>
+							</nav>
+							<ul id="copyright">
+								<li>&copy; 2014 <a href="http://www.stum.de">Michael Stum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+					</div>
+			</div>
 
-##### Heading 5 - Links
-Visit my Blog at http://www.stum.de or the [faml GitHub repository](https://github.com/mstum/faml).</textarea>
-            </td>
-            <td>
-                <h1 class="header">Output HTML</h1>
-                <div id="output-html" class="output">&nbsp;</div>
-            </td>
-            <td>
-                <h1 class="header">Rendered</h1>
-                <div id="rendered-html" class="output">&nbsp;</div>
-            </td>
-        </tr>
-    </table>
-        <script src="faml.0.9.0.min.js"></script>
+        <script src="js/faml.0.9.0.min.js"></script>
         <script>
-            var parser = new faml.FamlParser();
-            var renderer = new faml.FamlRenderer();
-            renderer.fencedClass = "MyFencedCodeClass-";
-
-            var escapeHtml = function (input) {
-                var result = input.replace(/[&](?![#](x[a-f0-9]{1,8}|[0-9]{1,8});|[a-z][a-z0-9]{1,31};)/gi, '&amp;')
-                            .replace(/[<]/g, '&lt;')
-                            .replace(/[>]/g, '&gt;')
-                            .replace(/["]/g, '&quot;');
-
-                return result;
-            };
-
-            var update = function (input) {
+            $(function(){
+                var parser = new faml.FamlParser();
+                var renderer = new faml.FamlRenderer();
+                var input = $('#example-faml').text();
                 var parsed = parser.parse(input);
-                var rendered = renderer.render(parsed);
-                var escaped = escapeHtml(rendered).replace("\n", "<br/>");
-                document.getElementById("output-html").innerHTML = escaped;
-                document.getElementById("rendered-html").innerHTML = rendered;
-            };
+                var html = renderer.render(parsed);
 
-            document.getElementById("input-text").addEventListener('keyup', function () { update(this.value); });
-
-            update(document.getElementById("input-text").value);
+                $('#example-html').html(html);
+            })
         </script>
-    </body>
+	</body>
 </html>

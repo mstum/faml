@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>faml - A Markup Language</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-desktop.css" />
+        <link rel="stylesheet" href="css/style-wide.css" />
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+</head>
+<body class="left-sidebar">
+<div id="wrapper">
+    <div id="content">
+        <div class="inner">
+            <article class="box post post-excerpt">
+                <header>
+                    <h2>faml Specification</h2>
+                </header>
+                <p>
+                    <h3>New Lines and Paragraphs</h3>
+                    A newline is translated into a linebreak. More than one newline is translated into a single paragraph. <em>faml</em> implicitly surrounds the entire input into a paragraph. Carriage returns (<code>\r</code>) are removed from the input.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>Line One
+Line Two</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>Line One
+
+Line Two</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <h3>HTML &amp; HTML Entities</h3>
+                    <em>faml</em> does not allow any HTML. All input is HTML Encoded before it's being parsed. However, HTML Entities are preserved.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>It is true that 3&lt;5 and 5&gt;3. &lt;3 Math :) Sad that they depreciated &lt;blink&gt;blink&lt;/blink&gt; tags. I liked them.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>Clever & Smart
+
+&amp;nbsp; &amp;amp; &amp;copy; &amp;AElig; &amp;Dcaron; &amp;frac34; &amp;HilbertSpace; &amp;DifferentialD; &amp;ClockwiseContourIntegral;</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <h3>Emphasis and Strong Emphasis (Italic and Bold)</h3>
+                    Text surrounded with single asterisks is emphasis, usually rendered italic.<br/>
+                    Text surrounded with double asterisks is strong emphasis, usually rendered bold.<br/>
+                    Text surrounded with triple asterisks is emphasized strong emphasis, usually rendered italic and bold.<br/>
+                    If you have more than three asterisks, the asterisks are taken as a literal.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is *emphasized text*.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is **strongly emphasized text**.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is ***strongly emphasized emphasis***.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>*****Five Stars!*****</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <h3>Escaping</h3>
+                    If you need a literal character, prefix it with a backslash. To display a backslash, escape it with another backslash.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is *Emphasis containing an asterisk, like this: \**.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is a backslash: \\.</pre></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is a backslash with emphasised text: \\*Hello!*.</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <h3>Headings</h3>
+                    Up to six levels of headings can be created by starting a line with one to six # (hash) sign, a space, and the text.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre># Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6 - Inline formatting (like *this*) or [links](http://example.com) are supported
+#Missing Space</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                    <h3>Code/Pre Blocks</h3>
+                    You can include inline code blocks by surrounding it with backticks (<code>`</code>) - the key left of the 1 on a US Keyboard.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>This is `an inline code block` in the text.</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    You can include a preformatted code block by putting exactly three backticks on its own line before and after.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>```
+public class SomeClass
+{
+    // This is *a comment*
+    public int Id { get; set; }
+}
+```</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    If you want to add a custom CSS class to the output, you can put the class name immediately after the opening backticks. By default, the Renderer will prepend <code>language-</code> to it, but you can adjust that class name.
+                    <table class="faml-table code box text-style1">
+                        <tr>
+                            <th>Input faml text</th>
+                            <th>Generated HTML</th>
+                        </tr>
+                        <tr>
+                            <td class="faml-input"><pre>```ruby
+# Hello World in Ruby :)
+puts 'Hello world'
+```</pre></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </p>
+                <p>
+                <h3>Links</h3>
+                By default, links are automatically hyperlinked. If a link starts with <code>http://</code>, <code>https://</code> or <code>ftp://</code> it is a hyperlink.<br/>
+                Explicit links can also be specified, including a custom link label and <code>title</code> attribute. <em>faml</em> will not make any attempts to validate the correctness of the link.<br/>
+                <em>faml</em> will try to deal with parentheses in the URL to find out what is part of the URL. It is recommended to URL Encode parentheses, e.g. %28 for ( and %29 for ).
+                <table class="faml-table code box text-style1">
+                    <tr>
+                        <th>Input faml text</th>
+                        <th>Generated HTML</th>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>This is a link to https://github.com/mstum/faml - you can also read the blog on http://stum.de/ - Does anyone remember ftp://ftp.aminet.net ?</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>This is [a link to the faml GitHub](https://github.com/mstum/faml).</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>[Check *this* out!](https://github.com/mstum/faml)</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>[Link With A Title](https://github.com/mstum/faml "faml Project Site")</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>We can't dance is an album by [Genesis](http://en.wikipedia.org/wiki/Genesis_(band))</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>You can search Wikipedia for [In Held ('Twas) in I](http://en.wikipedia.org/w/index.php?search=In+Held+('Twas)+in+I). That's the name of Transatlantic's cover of the song, parentheses included.</pre></td>
+                        <td></td>
+                    </tr>
+                </table>
+                </p>
+                <p><h3>Blockquotes</h3>
+                Starting a Line with a greater-than sign and space (<code>&gt;</code>) will create a blockquote. Newlines do not cancel blockquote mode, an empty line is required.
+                <table class="faml-table code box text-style1">
+                    <tr>
+                        <th>Input faml text</th>
+                        <th>Generated HTML</th>
+                    </tr>
+                    <tr>
+                        <td class="faml-input" data-blockquote="true"><pre>&gt; It Belongs In a Museum!
+&gt; *-- Henry Jones Jr., Indiana Jones and the Last Crusade*</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input" data-blockquote="true"><pre>&gt; It Belongs In a Museum!
+*-- Henry Jones Jr., Indiana Jones and the Last Crusade*</pre></td>
+                        <td></td>
+                    </tr>
+                </table>
+                </p>
+                <p>
+                <h3>Lists</h3>
+                You can create ordered and unordered lists, with unlimited nesting. Nesting is done by an indent of 2 spaces per level. Unordered Lists have an asterisk as their list item indicator, while ordered lists use a numeral followed by a period. The list item indicator must be the first item in a line, unless it is a nested item. To have two lists follow each other immediately, two empty line is required. A space between the list item indicator and the content is required.
+                <table class="faml-table code box text-style1">
+                    <tr>
+                        <th>Input faml text</th>
+                        <th>Generated HTML</th>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>* Unordered List Item One
+* Unordered List Item Two
+* Unordered List Item Three</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>* Another Unordered List Item One
+* Another Unordered List Item Two
+  * Nested Item Two-One
+    * Nested Item Two-One-One
+    * Nested Item Two-One-Two
+  * Nested Item Two-Two
+* Another Unordered List Item Three</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>1. Ordered List Item One
+2. Ordered List Item Two
+  1. Ordered List Item Two-One
+3. Ordered List Item Three
+  * Nested Unordered List Item One
+  * Nested Unordered List Item Two
+    1. Nested Ordered List Item One</pre></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="faml-input"><pre>8. This list starts with 8.
+9. Item Nine
+12. Item Ten - ordered lists are sequential after the start!</pre></td>
+                        <td></td>
+                    </tr>
+                </table>
+                </p>
+
+            </article>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <h1 id="logo"><a href="index.html">faml</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="index.html">About</a></li>
+                <li><a href="try.html">Try it out!</a></li>
+                <li><a href="famljs.html">How to use</a></li>
+                <li class="current"><a href="spec.html">Specification</a></li>
+                <li><a href="ast.html">AST Specification</a></li>
+                <li><a href="https://github.com/mstum/faml"><img src="images/github.png" width="16" height="16"/>&nbsp;&nbsp;GitHub Page</a></li>
+            </ul>
+        </nav>
+        <ul id="copyright">
+            <li>&copy; 2014 <a href="http://www.stum.de">Michael Stum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</div>
+
+<script src="js/faml.0.9.0.min.js"></script>
+<script>
+    var escapeHtml = function(input) {
+        var result = input.replace(/[&](?![#](x[a-f0-9]{1,8}|[0-9]{1,8});|[a-z][a-z0-9]{1,31};)/gi,'&amp;')
+                .replace(/[<]/g,'&lt;')
+                .replace(/[>]/g,'&gt;')
+                .replace(/["]/g,'&quot;');
+        return result;
+    };
+
+    $(function(){
+        var parser = new faml.FamlParser();
+        var renderer = new faml.FamlRenderer();
+
+        $(".faml-input").each(function(ix, elem) {
+            var $e = $(elem);
+            var input = $e.find("pre").html().replace("&amp;","&", 'g').replace("&lt;", "<", 'g').replace("&gt;", ">", 'g');
+
+            var parsed = parser.parse(input);
+            var html = renderer.render(parsed);
+            var escaped = escapeHtml(html);
+            $e.siblings("td").text(html);
+        });
+    })
+</script>
+</body>
+</html>

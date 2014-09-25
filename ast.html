@@ -1,0 +1,280 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>faml - A Markup Language</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-desktop.css" />
+        <link rel="stylesheet" href="css/style-wide.css" />
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+</head>
+<body class="left-sidebar">
+<div id="wrapper">
+    <div id="content">
+        <div class="inner">
+            <article class="box post post-excerpt">
+                <header>
+                    <h2>The Abstract Syntax Tree (AST)</h2>
+                    <p>The AST will most likely change in faml 1.0!</p>
+                </header>
+                <p>
+                When calling <code>FamlParser.parse</code>, the result is an Abtract Syntax Tree (AST). There is a single root node:
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+    children: [],
+    parent: null,
+    t: "Document"
+}</pre></td>
+                    </tr>
+                </table>
+                The exact members and their meaning depend on the value of <code>t</code> (the node type). The root node always has a value of <code>Document</code>, and it is the only node with that type. The parser differentiates between <em>inline</em> and <em>block</em> nodes.
+                </p>
+                <p><h3>General Properties</h3>
+                See the individual node type documentations for the exact meaning.
+                <ul>
+                    <li><code>t</code> is the type of the node</li>
+                    <li><code>parent</code> is the parent node of the current node - <code>null</code> for the root <code>Document</code> node</li>
+                    <li><code>children</code> are child nodes of block nodes. This property does not exist on all node types.</li>
+                    <li><code>inline_content</code> may exist on block nodes and indicates content that should be rendered inline within the block. This property does not exist on all node types.</li>
+                    <li><code>c</code> is the content of inline nodes. This may be a string or an array of other inline nodes or may not exist at all.</li>
+                    <li><code>string_content</code> is used by fenced code blocks to indicate that formatting needs to be kept.</li>
+                    <li><code>start_column, start_line, end_line</code> indicate which part of the input text this block contains. This may not exactly match the input though because of normalizing line endings or spaces.</li>
+                </ul>
+                </p>
+                <p><h3>Internal Properties</h3>
+                Any property not documented in the individual node types is used by the parser to maintain state or the result of generic parser code. These undocumented properties are subject to change/removal without notice.
+                </p>
+                <p><h2>Block Node Types</h2>
+                    <h3>Document</h3>
+                    Exists exactly once, as the root element of the tree.
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  children: [ &lt;Block Nodes&gt; ],
+  parent: null,
+  t: "Document"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>Paragraph</h3>
+                    Usually rendered as a <code>&lt;p&gt;</code> tag. Can contain inline elements, but not other block elements.
+
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  inline_content: [
+    { c: "Lorem Ipsum", t: "Str" },
+    { t: "Linebreak" },
+    { c: "Dolor Sic Amet!", t: "Str" }
+  ]
+  parent: &lt;ParentNode&gt;,
+  t: "Paragraph"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>Header</h3>
+                    Usually rendered as <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>. May contain multiple inline elements. <code>level</code> is between 1 and 6.
+
+
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  inline_content: [
+    { c: "This is ", t: "Str" },
+    { c: "an emphasized", t: "Emph" },
+    { c: " Header", t: "Str" },
+  ],
+  level: 1,
+  parent: &lt;ParentNode&gt;,
+  t: "Header"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>BlockQuote</h3>
+                    Usually rendered as <code>&lt;blockquote&gt;</code>.
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  children: [
+    {
+      inline_content: [
+        { c: "Lorem Ipsum", t: "Str" },
+        { t: "Linebreak" },
+        { c: "Dolor Sic Amet!", t: "Str" }
+      ]
+      parent: &lt;ParentNode&gt;,
+      t: "Paragraph"
+    }
+  ],
+  parent: &lt;ParentNode&gt;,
+  t: "BlockQuote"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>FencedCode</h3>
+
+                    Rendered as a <code>&lt;pre&gt;</code> with a <code>&lt;code&gt;</code> element by default. <code>info</code> is the optional CSS class name to be applied to the inner <code>&lt;code&gt;</code> element and may be an empty string (which means not to apply a class). The actual content is contained in <code>string_content</code>.
+
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  info: "ruby",
+  parent: &lt;ParentNode&gt;,
+  string_content: "puts 'Hello, World!'\nputs 'Example'"
+  t: "FencedCode"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>List</h3>
+                Either an <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code>, depending on the <code>list_data.type</code> which can be <code>Bullet</code> or <code>Ordered</code>. For <code>Ordered</code> there is a <code>list_data.start</code> property which indicates the start index. If this is not 1, the HTML Renderer will render <code>&lt;ol start="X"&gt;</code>. <code>children</code> is an array of ListItem nodes.
+
+
+                <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>// Unordered List
+{
+  children: [ &lt;Array of ListItem nodes&gt; ],
+  list_data: {
+    type: "Bullet"
+  },
+  parent: &lt;ParentNode&gt;,
+  t: "List"
+}
+
+// Ordered List list_data
+list_data: {
+  start: 1,
+  type: "Ordered"
+}</pre></td>
+                        </tr>
+                    </table>
+                    <h3>ListItem</h3>
+                Rendered as a <code>&lt;li&gt;</code>. The <code>children</code> can contain a variety of inline or block nodes.
+                    <table class="faml-table box text-style1">
+                        <tr>
+                            <td><pre>{
+  children: [ &lt;Block or Inline Nodes&gt; ],
+  parent: &lt;ParentNode&gt;,
+  t: "ListItem"
+}</pre></td>
+                        </tr>
+                    </table>
+                </p>
+                <p><h2>Inline Node Types</h2>
+                <h3>Str</h3>
+                A literal string that needs to be HTML Encoded.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  c: "Lorem Ipsum Dolor Sic Amet",
+  t: "Str"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Linebreak</h3>
+                Usually rendered as a <code>&lt;br/&gt;</code> tag.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  t: "Linebreak"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Emph</h3>
+                Usually rendered as a <code>&lt;em&gt;</code> tag. The <code>c</code> member is an array of other inline elements
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  c: [
+    { c: "Lorem Ipsum", t: "Str" },
+    { t: "Linebreak" },
+    { c: "Dolor Sic Amet!", t: "Str" }
+  ],
+  t: "Emph"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Strong</h3>
+                Usually rendered as a <code>&lt;strong&gt;</code> tag. The <code>c</code> member is an array of other inline elements
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  c: [
+    { c: "Lorem Ipsum", t: "Str" },
+    { t: "Linebreak" },
+    { c: "Dolor Sic Amet!", t: "Str" }
+  ],
+  t: "Strong"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Entity</h3>
+                A HTML Entity, usually rendered as-is.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  c: "&copy;",
+  t: "Entity"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Link</h3>
+                Usually rendered as <code>&lt;a href="https://github.com/mstum/faml" title="faml GitHub Page"&gt;A Link&lt;/a&gt;</code>. <code>title</code> may be be undefined if no title was given. <code>label</code> is an array of inline elements because link labels may be formatted with <em>faml</em> markup.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  destination: "https://github.com/mstum/faml",
+  label: [
+    { c: "A Link", t: "Str" }
+  ],
+  t: "Link",
+  titel: "faml GitHub Page"
+}</pre></td>
+                    </tr>
+                </table>
+                <h3>Code</h3>
+                This is an inline <code>&lt;code&gt;</code> block.
+                <table class="faml-table box text-style1">
+                    <tr>
+                        <td><pre>{
+  c: "var foo = new bar()",
+  t: "Code"
+}</pre></td>
+                    </tr>
+                </table>
+                </p>
+            </article>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <h1 id="logo"><a href="index.html">faml</a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="index.html">About</a></li>
+                <li><a href="try.html">Try it out!</a></li>
+                <li><a href="famljs.html">How to use</a></li>
+                <li><a href="spec.html">Specification</a></li>
+                <li class="current"><a href="ast.html">AST Specification</a></li>
+                <li><a href="https://github.com/mstum/faml"><img src="images/github.png" width="16" height="16"/>&nbsp;&nbsp;GitHub Page</a></li>
+            </ul>
+        </nav>
+        <ul id="copyright">
+            <li>&copy; 2014 <a href="http://www.stum.de">Michael Stum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
