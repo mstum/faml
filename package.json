@@ -1,6 +1,6 @@
 {
   "name": "faml",
-  "version": "0.9.0",
+  "version": "x.0.0",
   "description": "faml - A Markup Language",
   "author": "Michael Stum <opensource@stum.de>",
   "main": "lib/faml",

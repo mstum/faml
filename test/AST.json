@@ -1,0 +1,109 @@
+[
+    // faml Abstract Syntax Tree, draft for 1.0
+    
+    // Document - Root Node
+    {
+        "type": "Document",
+        "children": [],
+        "parent": null,
+        "version": "1"
+    },
+    
+    // Block Node Types
+    // Paragraph - <p>
+    {
+        "type": "Paragraph",
+        "parent": "",
+        "children": []
+    },
+    
+    // Header - <h1> to <h6>
+    {
+        "type": "Header",
+        "level": 1,
+        "parent": "",
+        "children": []
+    },
+    
+    // BlockQuote - <blockquote>
+    {
+        "type": "BlockQuote",
+        "parent": "",
+        "children": []
+    },
+    
+    // FencedCode - <pre><code>
+    {
+        "type": "FencedCode",
+        "parent": "",
+        "info": "cssClass",
+        "children": []
+    },
+    
+    // UnorderedList - <ul>
+    {
+        "type": "UnorderedList",
+        "parent": "",
+        "children": [] // ListItem nodes
+    },
+    
+    // OrderedList - <ol>
+    {
+        "type": "OrderedList",
+        "start": 1,
+        "parent": "",
+        "children": [] // ListItem nodes
+    },
+    
+    // ListItem - <li>
+    {
+        "type": "ListItem",
+        "parent": "",
+        "children": []
+    },
+    
+    // Inline Node Types
+    // No Parent because there is no traversing up and down
+    // Str - String that needs HTML Encoding
+    {
+        "type": "Str",
+        "content": "Lorem Ipsum Dolor"
+    },
+    
+    // Linebreak - <br/>
+    {
+        "type": "Linebreak"
+    },
+    
+    // Emph - <em>
+    {
+        "type": "Emph",
+        "children": []
+    },
+
+    // Strong - <strong>
+    {
+        "type": "Strong",
+        "children": []
+    },
+    
+    // HtmlEntity - rendered as-is with no further HTML Encoding
+    {
+        "type": "HtmlEntity",
+        "entity": "&copy;"
+    },
+    
+    // Link - <a>
+    {
+        "type": "Link",
+        "url": "http://mstum.github.io/faml/",
+        "title": "faml project homepage",
+        "label": []
+    },
+    
+    // Code - <code> - content needs HTML Encoding
+    {
+        "type": "Code",
+        "content": "var foo = new bar()"
+    }
+]
